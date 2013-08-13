@@ -1,0 +1,17 @@
+(:1 [0 1 2 3])
+(1 [0 1 2 3])
+(peek [0 1 2 3])
+(pop [0 1 2 3])
+(list? [1 2])
+(type [1 2])
+(let x [1 2]
+(let [one two] x
+pprint(one)))
+(let [x] [1 2]
+(let [one two] [x] pprint(one)))
+(let [x [1 2]] (let [[one two] x] (pprint one)))
+(let [x [1 2]] (let [[one two] x] (pprint two)))
+(let [x [1 2]] (let [[one two] x] (pprint two/)))
+(let [x [1 2]] (let [[one two] x] (pprint two?)))
+(let [x [1 2]] (let [[one two] x] (pprint (if two?))))
+(let [x [1 2]] (let [[one two] x] (if two? (pprint "yes"))))
