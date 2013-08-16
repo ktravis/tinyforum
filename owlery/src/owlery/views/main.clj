@@ -1,12 +1,15 @@
 (ns owlery.views.main
   (:require [owlery.views.common :as common]
-            [noir.content.getting-started])
-  (:use [noir.core :only [defpage]]
+            [owlery.models.topics :as topics]
+            [noir.session :as sess]
+            [noir.response :as resp])
+  (:use [noir.core :only [defpage defpartial]]
+        [owlery.models.users :only [user-add-topic!]]
+        [owlery.views.common :only [logged-in?]]
         [hiccup.form :only [form-to label text-field label text-area submit-button]])
   )
 
-
-(defpage "/main" {:keys [topic]} 
+(defpage "/" [] 
          (common/site-layout
            [:div.jumbotron
             [:h1 "Oregon Wafer Lab"]
@@ -15,26 +18,22 @@
             [:thead
              [:tr [:th "User"] [:th "Topic"]]]
             [:tbody
-              (if topic
-                (let [[t b] topic]
-                  [:tr.topics
-                   [:td [:a {:href "/"} t]]
-                   [:td (str b)]])
-                [:tr.topics
-                 [:td [:a "user"]]
-                 [:td t]])
-             (for [x (range 1 5)]
-               [:tr.topics
-                [:td [:a {:href "/"} "- "]][:td (str "This is topic " x)]])]]
-           (form-to [:post "/main"]
-             [:fieldset
-               [:legend "Create new Topic"]
-               (label "title" "Topic Title")
-               (text-field "h")
-               (label "topic" "Topic Text")
-               (text-area {:value "testing" :style "width:100%;min-height:150px;"} "b")
-               (submit-button "Submit")])))
+             (for [topic (topics/topics-get-all)]
+              [:tr.topics
+               [:td (:author topic)]
+               [:td [:a {:href (str "/topic/" (:id topic))} (:title topic)]]])]]
+           (if (logged-in?)
+             (form-to [:post "/add"]
+               [:fieldset
+                 [:legend "Create new Topic"]
+                 (label "title" "Topic Title")
+                 (text-field "h")
+                 (label "topic" "Topic Text")
+                 (text-area {:value "testing" :style "width:98%;min-height:140px;"} "b")
+                 (submit-button "Submit")]))))
 
-(defpage [:post "/main"] {:keys [h b]} 
-         (noir.core/render "/main"
-                           {:topic [h b]}))
+(defpage [:post "/add"] {:keys [h b]}
+  (let [id (inc (topics/ids-get-latest)) user (sess/get :email)]
+    (user-add-topic! user id)
+    (topics/store-raw-topic {:title h :body b :author user :id id}))
+  (do (resp/redirect "/")))
