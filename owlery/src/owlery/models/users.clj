@@ -8,6 +8,10 @@
 
 (def r (redis-client {:host "localhost"}))
 
+(def admin #{ "test@test.com" })
+
+(defn is-admin? [u] (contains? admin u))
+
 (defn user-get [email]
   (let [user (apply hash-map @(r [:hgetall (key-user email)]))]
     (when (not (empty? user))
@@ -30,6 +34,12 @@
 
 (defn user-add-comment! [email comment-id]
   @(r [:sadd (key-user-comments email) comment-id]))
+
+(defn user-remove-topic! [email topic-id]
+  @(r [:srem (key-user-topics email) topic-id]))
+
+(defn user-remove-comment! [email comment-id]
+  @(r [:srem (key-user-comments email) comment-id]))
 
 (defn user-delete! [email]
   @(r [:del (key-user email)])

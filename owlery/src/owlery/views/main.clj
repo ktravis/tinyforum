@@ -5,7 +5,6 @@
             [noir.response :as resp])
   (:use [noir.core :only [defpage defpartial]]
         [owlery.models.users :only [user-add-topic!]]
-        [owlery.views.common :only [logged-in?]]
         [hiccup.form :only [form-to label text-field label text-area submit-button]])
   )
 
@@ -22,7 +21,7 @@
               [:tr.topics
                [:td (:author topic)]
                [:td [:a {:href (str "/topic/" (:id topic))} (:title topic)]]])]]
-           (if (logged-in?)
+           (if (common/logged-in?)
              (form-to [:post "/add"]
                [:fieldset
                  [:legend "Create new Topic"]
@@ -30,7 +29,7 @@
                  (text-field "h")
                  (label "topic" "Topic Text")
                  (text-area {:value "testing" :style "width:98%;min-height:140px;"} "b")
-                 (submit-button "Submit")]))))
+                 (submit-button "Submit")]) (common/please-login))))
 
 (defpage [:post "/add"] {:keys [h b]}
   (let [id (inc (topics/ids-get-latest)) user (sess/get :email)]

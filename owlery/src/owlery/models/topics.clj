@@ -86,3 +86,5 @@
 (defn topics-get-all []
   (topic-get-n-latest (topics-length)))
 
+(defn is-topic-author? [id u] 
+  (if (= (:author (topic-get id)) u) true nil))

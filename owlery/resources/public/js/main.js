@@ -8,4 +8,9 @@ $(".comment").on({
         $(this).children(".hoverhide").hide(); 
     }
 });
+$(".nologin").on({
+    click: function() {
+        window.location = "/login";
+    }});
+$(".message").delay(2000).slideUp(1600);
 });

@@ -5,11 +5,18 @@
   (:require [noir.util.crypt :as crypt])
   (:use [noir.core :only [defpartial defpage]]
         [owlery.util.utils]
+        [clojure.string :only [split]]
         [hiccup.form :only [form-to label text-field label password-field submit-button]]
         [hiccup.page :only [include-css include-js html5]]))
 
 (defn map-tag [tag xs]
   (map (fn [x] [tag x]) xs))
+
+(defn strip-email-domain [email]
+  (first (split email #"@")))
+
+(defn flash! [m] (sess/flash-put! :message m) nil)
+(defn refer! [ref] (sess/flash-put! :referral ref) nil)
 
 (defn create-user [email password]
   (users/user-set-email! email email)
@@ -17,7 +24,7 @@
   (sess/put! :email email)
   (users/user-get email))
 
-(defn check-login [{:keys [email password]}]
+(defn check-login [email password]
   (if (some empty? [email password])
     (resp/redirect "/login")
     (if-not (re-find email-regex email)
@@ -50,60 +57,71 @@
                 [:ul.nav.nav-pills.pull-right
                  [:li [:a {:href "/"} "Home"]]
                  [:li [:a {:href "/faq"} "FAQ"]]
-                 [:li (if (logged-in?)
+                 [:li (if-not (logged-in?)
                         [:a {:href "/login"} "Login"]
-                        [:a {:href "/logout"} "Logout"])]]
+                        (form-to [:post "/logout"]
+                          (submit-button {:id "logout"} "Logout")))]]
                 [:h3.muted "I'm Working On It"]]
                 [:hr]
-                [:div.marketing content]
+                [:div.marketing
+                 (when-let [message (sess/flash-get :message)]
+                           [:div.message [:h4#messagecontent message]])
+                 content]
                 [:hr]
                 [:div.footer "Infringing all the copyrights."]
                 ]]))
 
+(defpartial please-login [& refer]
+            [:div.nologin {:style ""}
+             [:h4 "please login to post"]]
+            (if refer (refer! refer))
+            )
+
 (defpartial login-form []
   (form-to [:post "/login"]
-           [:fieldset
+           [:fieldset {:style "margin-left: 34%"}
             [:label "email:"]
             (text-field "e")
             [:label "password:"]
             (password-field "p")
-            (submit-button "Submit")]))
+            [:br] (submit-button "Submit")]
+           ))
 
 (defpartial register-form []
   (form-to [:post "/register"]
-           [:fieldset
+           [:fieldset {:style "margin-left: 34%"}
             [:label "email:"]
             (text-field "re")
             [:label "password:"]
             (password-field "rp")
             [:label "re-enter password:"]
             (password-field "rp-too")
-            (submit-button "Submit")]))
+            [:br](submit-button "Submit")]))
 
 (defpage "/logout" []
   (site-layout
     (if (logged-in?)
-      (form-to [:post "/logout"]
-               (submit-button "Logout"))
       [:h2 "I don't think you want to be here..."])))
 
 (defpage [:post "/logout"] []
-  (sess/remove! :email)
+  (sess/remove! :email) 
   (resp/redirect "/"))
 
 (defpage "/login" []
   (site-layout
-    [:h2 "Login?"]
+    [:h2 {:style "text-align:center;"} "Login?"] 
     (login-form)
-    [:hr]
-    [:h2 "Register?"]
+    [:br] [:hr] [:br]
+    [:h2 {:style "text-align:center;"} "Register?"]
     (register-form)))
 
 (defpage [:post "/login"] {:keys [e p]}
-  (check-login [e p])
+  (check-login e p)
+  (flash! (str "You have logged in successfully."))
   (resp/redirect "/"))
 
 (defpage [:post "/register"] {:keys [re rp rp-too]}
-  (if (= rp rp-too) (check-login [re rp]))
-  (resp/redirect "/")) 
+  (if (= rp rp-too) (check-login re rp)) 
+  (resp/redirect "/"))
+
 
