@@ -5,8 +5,7 @@
             [noir.response :as resp])
   (:use [noir.core :only [defpage defpartial]]
         [owlery.models.users :only [user-add-topic!]]
-        [hiccup.form :only [form-to label text-field label text-area submit-button]])
-  )
+        [hiccup.form :only [form-to label text-field label text-area submit-button]]))
 
 (defpage "/" [] 
          (common/site-layout

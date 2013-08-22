@@ -10,7 +10,8 @@
 
 (def admin #{ "test@test.com" })
 
-(defn is-admin? [u] (contains? admin u))
+(defn is-admin? [u] (or (contains? admin u)
+                        @(r [:sismember "admins" u]))) 
 
 (defn user-get [email]
   (let [user (apply hash-map @(r [:hgetall (key-user email)]))]
@@ -24,7 +25,13 @@
                                       :body)}))))
 
 (defn user-set-email! [email new-email]
+  @(r [:lrem "emails" 0 email])
+  @(r [:lpush "emails" new-email])
   @(r [:hset (key-user email) "email" new-email]))
+
+(defn users-get-all []
+  @(r [:lrange "emails" 0 (dec @(r [:llen "emails"]))])
+  )
 
 (defn user-set-pass! [email new-pass]
   @(r [:hset (key-user email) "pass" (crypt/encrypt new-pass)]))
@@ -41,7 +48,14 @@
 (defn user-remove-comment! [email comment-id]
   @(r [:srem (key-user-comments email) comment-id]))
 
+(defn user-promote! [email]
+  @(r [:sadd "admins" email]))
+
+(defn user-demote! [email]
+  @(r [:srem "admins" email]))
+
 (defn user-delete! [email]
   @(r [:del (key-user email)])
+  @(r [:srem "admins" email]) 
   @(r [:del (key-user-topics email)])
   @(r [:del (key-user-comments email)]))

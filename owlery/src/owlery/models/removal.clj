@@ -18,13 +18,19 @@
   )
 
 (defn remove-topic! [id]
-  (let [topic (topic-get id)]
-  (user-remove-topic! (:author topic) id)
-    ;(for [cid (map (fn [comm] (:id comm)) (topic-get-comments id))]
-      ;(remove-comment! cid)    
-      ;)
-    (map (fn [comm] (remove-comment! (:id comm))) (topic-get-comments id))
+  ;(for [comm (topic-get-comments id)]
+  ;(remove-comment! (:id comm))) 
+  ;(map #(remove-comment! (:id %)) (topic-get-comments id))
+  ;(for [comm (topic-get-comments id)]
+  ;(let [cid (:id comm)] 
+  ;(user-remove-comment! (:author comm) (:id comm))
+  ;@(r [:lrem "cids" 0 cid])
+  ;@(r [:del (key-comment cid)])
+  ;@(r [:srem (key-topic-comment-ids id cid)])))
+  (let [topic (topic-get id) comments (topic-get-comments id)]
+    ;(map (fn [comm] (remove-comment! (:id comm))) (topic-get-comments id))
+    (map #(remove-comment! (:id %)) comments)
     @(r [:lrem "ids" 0 id])
     @(r [:del (key-topic id)])
-    )
-  )
+    (user-remove-topic! (:author topic) id)
+    ))

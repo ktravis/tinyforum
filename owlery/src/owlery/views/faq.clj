@@ -1,8 +1,6 @@
 (ns owlery.views.faq
-  (:require [owlery.views.common :as common]
-            [noir.content.getting-started])
-  (:use [noir.core :only [defpage]])
-  )
+  (:require [owlery.views.common :as common])
+  (:use [noir.core :only [defpage]]))
 
 
 (defpage "/faq" []
