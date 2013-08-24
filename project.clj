@@ -1,5 +1,6 @@
 (defproject tinyforum "0.5.0-SNAPSHOT"
             :description "FIXME: write this!"
+            :min-lein-version "2.0.0"
             :dependencies [[org.clojure/clojure "1.4.0"]
                            [noir "1.3.0-beta3"]
                            [markdown-clj "0.9.29"]
