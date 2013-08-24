@@ -1,4 +1,5 @@
-(ns tinyforum.models.static)
+(ns tinyforum.models.static
+  (:use [tinyforum.models.client]))
 
 (def r @client)
 
