@@ -95,7 +95,8 @@
                  (err-clear!)
                  content]
                 [:hr]
-                [:div.footer (md-to-html-string (get-footer))]
+                ;[:div.footer (md-to-html-string (get-footer))]
+                [:div.footer (get-footer)]
                 ]]))
 
 (defpartial please-login []
