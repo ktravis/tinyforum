@@ -4,7 +4,6 @@
      (:use tinyforum.models.client)
      (:use [tinyforum.models.comments :only (store-raw-comment comment-get)]))
 
-(def r @client)
 
 ; Schema 
 ;
@@ -19,7 +18,7 @@
 ; topics = {<topic id>, ...}
 
 (defn topic-get [id]
-  (let [topic (apply hash-map (r [:hgetall (key-topic id)]))]
+  (let [topic (apply hash-map (@r [:hgetall (key-topic id)]))]
     (when (not (empty? topic))
       {:id (topic "id")
        :title (topic "title")
@@ -31,36 +30,36 @@
 
 
 (defn topic-set-id! [id new-id]
-  (r [:hset (key-topic id) "id" new-id]))
+  (@r [:hset (key-topic id) "id" new-id]))
 
 (defn topic-set-title! [id new-title]
-  (r [:hset (key-topic id) "title" new-title]))
+  (@r [:hset (key-topic id) "title" new-title]))
 
 (defn topic-set-post-time! [id new-post-time]
-  (r [:hset (key-topic id) "post-time" new-post-time]))
+  (@r [:hset (key-topic id) "post-time" new-post-time]))
 
 (defn topic-set-author! [id new-author]
-  (r [:hset (key-topic id) "author" new-author]))
+  (@r [:hset (key-topic id) "author" new-author]))
 
 (defn topic-set-body! [id new-body]
-  (r [:hset (key-topic id) "body" new-body]))
+  (@r [:hset (key-topic id) "body" new-body]))
 
 (defn topic-edit-body! [id new-body]
   (topic-set-body! id new-body)
-  (r [:hset (key-topic id) "edit-time" (get-time)]))
+  (@r [:hset (key-topic id) "edit-time" (get-time)]))
 
 
 (defn topic-get-comments [id]
-  (map comment-get (r [:smembers (key-topic-comment-ids id)])))
+  (map comment-get (@r [:smembers (key-topic-comment-ids id)])))
 
 (defn topic-add-comment [id comm]
-  (r [:sadd (key-topic-comment-ids id) (:id comm)])
+  (@r [:sadd (key-topic-comment-ids id) (:id comm)])
   (store-raw-comment comm))
 
 
 (defn store-raw-topic [topic]
   (let [id (topic :id)]
-    (r [:lpush "ids" id])
+    (@r [:lpush "ids" id])
     (topic-set-id! id id)
     (topic-set-title! id (topic :title))
     (topic-set-post-time! id (get-time))
@@ -72,17 +71,17 @@
 
 
 (defn topics-length []
-  (r [:llen "ids"]))
+  (@r [:llen "ids"]))
 
 (defn ids-get-latest []
-  (parse-int (r [:lindex "ids" 0])))
+  (parse-int (@r [:lindex "ids" 0])))
 
 (defn topic-get-nth-latest [n]
   (topic-get
-    (parse-int (r [:lindex "ids" n]))))
+    (parse-int (@r [:lindex "ids" n]))))
 
 (defn topic-get-n-latest [n]
-  (let [topic-ids (r [:lrange "ids" 0 (dec n)])]
+  (let [topic-ids (@r [:lrange "ids" 0 (dec n)])]
        (for [i topic-ids
          :let [topic (topic-get i)]
          :when (not (empty? topic))]
