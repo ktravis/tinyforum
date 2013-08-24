@@ -1,7 +1,9 @@
 .un~
-pom.xml
+/pom.xml
 *jar
 /lib/
 /classes/
 /targets/
-.lein-deps-sum
+/target
+/.lein-*
+/.env
