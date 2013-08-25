@@ -29,7 +29,7 @@
   @(@r [:hset (key-user email) "email" new-email]))
 
 (defn users-get-all []
-  @(@r [:lrange "emails" 0 (dec @(r [:llen "emails"]))])
+  @(@r [:lrange "emails" 0 (dec @(@r [:llen "emails"]))])
   )
 
 (defn user-set-pass! [email new-pass]
