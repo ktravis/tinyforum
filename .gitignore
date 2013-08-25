@@ -8,4 +8,5 @@ repl-*
 /target
 /.lein-*
 /.env
+*.log
 *.dependencies
