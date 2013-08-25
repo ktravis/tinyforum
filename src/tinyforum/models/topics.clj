@@ -40,6 +40,9 @@
 (defn topic-get-comments [id]
   (map comment-get @(@r [:smembers (key-topic-comment-ids id)])))
 
+(defn topic-get-comment-ids [id]
+  @(@r [:smembers (key-topic-comment-ids id)]))
+
 (defn topic-add-comment [id comm]
   @(@r [:sadd (key-topic-comment-ids id) (:id comm)])
   (store-raw-comment comm))

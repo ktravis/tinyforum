@@ -5,3 +5,5 @@
 
 (def email-regex #"[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}")
 
+(defn in? [seq elm]
+  (some #(= elm %) seq))

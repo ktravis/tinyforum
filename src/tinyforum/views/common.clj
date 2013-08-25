@@ -25,6 +25,29 @@
 (defn err! [e] (sess/put! :err e) nil)
 (defn err-read [] (sess/get :err) nil)
 (defn err-clear! [] (sess/remove! :err) nil)
+(defn seen? [id] (if (sess/get :seen) 
+                   (in? (clojure.string/split (sess/get :seen) #" ") (str id))
+                   nil))
+(defn comment-seen? [cid] (if (sess/get :c-seen) 
+                            (in? (clojure.string/split (sess/get :c-seen) #" ") 
+                                 (str cid))
+                            nil))
+(defn saw! [id] 
+  (sess/put! :seen 
+             (if (sess/get :seen)
+               (clojure.string/join #" "
+                 (set (conj 
+                          (clojure.string/split (sess/get :seen) #" ")
+                          (str id))))
+               (str id))))
+(defn comment-saw! [cid] 
+  (sess/put! :c-seen 
+             (if (sess/get :c-seen)
+               (clojure.string/join 
+                 #" " (set (conj 
+                          (clojure.string/split (sess/get :c-seen) #" ")
+                          (str cid))))
+               (str cid))))
 
 (defn create-user [email password]
   (users/user-set-email! email email)
@@ -95,8 +118,7 @@
                  (err-clear!)
                  content]
                 [:hr]
-                ;[:div.footer (md-to-html-string (get-footer))]
-                [:div.footer (get-footer)]
+                [:div.footer (md-to-html-string (get-footer))]
                 ]]))
 
 (defpartial please-login []

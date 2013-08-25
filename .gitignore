@@ -1,9 +1,11 @@
-.un~
+*.un~
 /pom.xml
 *jar
+repl-*
 /lib/
 /classes/
 /targets/
 /target
 /.lein-*
 /.env
+*.dependencies

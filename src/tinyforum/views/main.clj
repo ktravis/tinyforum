@@ -22,7 +22,18 @@
              (for [topic (topics/topics-get-all)]
               [:tr.topics
                [:td (:author topic)]
-               [:td [:a {:href (str "/topic/" (:id topic))} (:title topic)]]])]]
+               [:td [:a {:href (str "/topic/" (:id topic))
+                         :style (if (common/seen? (:id topic))
+                                 "font-weight:regular" 
+                                 "font-weight:bold")} (:title topic)]
+                (when-let [cids (topics/topic-get-comment-ids (:id topic))]
+                  (let [num (count (clojure.string/join #" " 
+                              (filter #(not (common/comment-seen? %)) 
+                                      cids)))]
+                    (if (< 0 num) 
+                      [:span.countpos [:a.commentcount 
+                       {:href (str "/topic/" (:id topic))} 
+                       (str num)]])))]])]]
            (if (common/logged-in?)
              (form-to [:post "/add"]
                [:fieldset

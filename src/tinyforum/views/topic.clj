@@ -10,12 +10,14 @@
         [tinyforum.models.users :only [is-admin?]]
         [tinyforum.util.timing :only [format-time]]
         [markdown.core]
-        [hiccup.form :only [form-to label text-field label text-area submit-button]])
-  )
+        [hiccup.element :only [javascript-tag]]
+        [hiccup.form :only [form-to label text-field 
+                            label text-area submit-button]]))
 
 
 (defpartial comment-item [comm]
   [:div.clearfix.content-heading.comment
+   (common/comment-saw! (:id comm))
    (if (:author comm)
      [:a.user {:href "/"} (str "@" (common/strip-email-domain (:author comm)))])
    " "
@@ -39,7 +41,9 @@
    (map comment-item comments)])
 
 (defpage "/topic/:id" {:keys [id]}
-       (sess/put! :referral (str "/topic/" id))
+       (do 
+         (sess/put! :referral (str "/topic/" id))
+         (common/saw! id))
        (let [topic (topics/topic-get id) 
              comments (topics/topic-get-comments id)]
          (common/site-layout
@@ -72,8 +76,8 @@
                  [:legend "Add a Comment"]
                  (text-area {:style "width:98%;min-height:150px;"} "c")
                  (submit-button "Submit")])
-             (common/please-login)
-             ))))
+             (common/please-login)))))
+
 
 (defpage "/topic/:id/edit" {:keys [id]}
        (sess/put! :referral (str "/topic/" id))

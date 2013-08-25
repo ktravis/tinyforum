@@ -29,6 +29,10 @@ body {
     padding: 14px 24px;
 }
 
+.jumbotron * li {
+text-align:left;
+}
+
 /* Supporting marketing content */
 .marketing {
     margin: 60px 0;
@@ -285,4 +289,27 @@ padding-top:10px;
 }
 .currentuser:hover {
 opacity:1.0;
+}
+
+.countpos {
+width:0px;
+height:0px;
+position:relative;
+float:right;
+}
+
+.commentcount {
+position:absolute;
+color:#fff;
+padding:3px;
+padding-left:6px;
+padding-right:6px;
+float:right;
+margin-left:-20px;
+margin-top:-4px;
+background-color: #fa5855;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+cursor:pointer;
 }

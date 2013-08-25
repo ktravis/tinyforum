@@ -14,7 +14,7 @@
          (common/site-layout
            [:div.jumbotron
             [:h1 "FAQ"]
-            [:p.lead 
+            [:p.lead
              (md-to-html-string (static/get-faq))]
             (if (users/is-admin? (sess/get :email))
              [:a {:style "float:right"
