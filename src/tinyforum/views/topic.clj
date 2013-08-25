@@ -3,8 +3,7 @@
             [tinyforum.models.topics :as topics]
             [tinyforum.models.removal :as remo]
             [noir.response :as resp]
-            [noir.session :as sess]
-            [noir.content.getting-started])
+            [noir.session :as sess])
   (:use [noir.core :only [render defpage defpartial]]
         [tinyforum.views.common :only [logged-in? flash!]]
         [tinyforum.models.comments :only [cids-get-latest is-comment-author?]]
