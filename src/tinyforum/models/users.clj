@@ -9,7 +9,6 @@
 
 (def admin #{ "test@test.com" })
 
-
 (defn is-admin? [u] (or (contains? admin u)
                         (not= 0 @(r [:sismember "admins" u])))) 
 

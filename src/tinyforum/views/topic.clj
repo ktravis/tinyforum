@@ -20,7 +20,6 @@
    (if (:author comm)
      [:a.user {:href "/"} (str "@" (common/strip-email-domain (:author comm)))])
    " "
-   ;(last (re-matches #"^<p>?(.+)</p>?$" (md-to-html-string (:body comm))))
    (if (:post-time comm) 
      [:div.clearfix.content-heading.comment.hoverhide {:style "float:right"} 
       (format-time (:post-time comm))]) 

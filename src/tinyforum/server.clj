@@ -1,5 +1,6 @@
 (ns tinyforum.server
-  (:require [noir.server :as server]))
+  (:require [noir.server :as server])
+  (:require [tinyforum.models.client :as client]))
 
 (server/load-views-ns 'tinyforum.views)
 

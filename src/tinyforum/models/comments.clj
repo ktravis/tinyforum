@@ -3,11 +3,8 @@
      (:use tinyforum.models.keys)
      (:use tinyforum.models.client))
 
-
-; Schema 
-
 (defn comment-get [id]
-  (let [comm (apply hash-map (@r [:hgetall (key-comment id)]))]
+  (let [comm (apply hash-map @(r [:hgetall (key-comment id)]))]
     (when (not (empty? comm))
       {:post-time (comm "post-time")
        :author (comm "author")

@@ -5,18 +5,6 @@
      (:use [tinyforum.models.comments :only (store-raw-comment comment-get)]))
 
 
-; Schema 
-;
-; topics:<topic id> = {
-;   id:         id
-;   title:      topic title
-;   post-time:  duh
-;   author:     again
-;   body:       
-; }
-;
-; topics = {<topic id>, ...}
-
 (defn topic-get [id]
   (let [topic (apply hash-map @(r [:hgetall (key-topic id)]))]
     (when (not (empty? topic))

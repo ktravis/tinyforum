@@ -5,7 +5,6 @@
      (:use [tinyforum.models.comments :only (comment-get)])
      (:use [tinyforum.models.topics :only (topic-get-comments topic-get)]))
 
-
 (defn remove-comment! [cid]
   (let [comm (comment-get cid)]
     (user-remove-comment! (:author comm) cid)
