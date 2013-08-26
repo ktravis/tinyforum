@@ -1,6 +1,8 @@
 tinyforum
 =========
 
+###Working demo: [TinyForum](http://tinyforum.herokuapp.com)
+
 About
 -----
 TinyForum is a [Noir](http://webnoir.org)-based, "light-weight" forum system written in Clojure.
