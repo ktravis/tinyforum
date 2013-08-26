@@ -21,12 +21,12 @@
    (if (:author comm)
      [:a.user {:href "/"} (str "@" (common/strip-email-domain (:author comm)))])
    " "
-   (if (:post-time comm) 
-     [:div.clearfix.content-heading.comment.hoverhide {:style "float:right"} 
-      (format-time (:post-time comm))]) 
    (when-let [s (md-to-html-string (:body comm))]
      (if (= "<p>" (subs s 0 3))
        (subs s 3 (- (.length s) 4)) s))
+   (if (:post-time comm) 
+     [:div.clearfix.content-heading.comment.hoverhide.ctimecontainer
+      [:span (format-time (:post-time comm))]]) 
    (if (and (:id comm) 
             (or (is-admin? (sess/get :email))
                 (topics/is-topic-author? (:parent comm) (sess/get :email))

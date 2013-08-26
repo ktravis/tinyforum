@@ -88,6 +88,18 @@ font-size:8pt;
 color:#999;
 }
 
+.ctimecontainer {
+width:0px;
+height:0px;
+position:relative;
+float:right;
+}
+.ctimecontainer * {
+position:absolute;
+bottom:-30px;
+margin-left:-160px;
+}
+
 .nologin {
 cursor: pointer;
 background-color:#eee;

@@ -88,6 +88,7 @@
                (include-js "/js/shBrushCpp.js")
                (include-js "/js/shBrushJava.js")
                (include-js "/js/shBrushPython.js")
+               (include-js "/js/shBrushClojure.js")
                (include-js "/js/main.js")
                (include-css "/css/bootstrap-responsive.css")
                (include-css "/css/bootstrap.css")
