@@ -1,6 +1,7 @@
 (ns tinyforum.models.comments
      (:use [tinyforum.util.timing :only (parse-int get-time)])
      (:use tinyforum.models.keys)
+     (:use tinyforum.util.utils)
      (:use tinyforum.models.client))
 
 (defn comment-get [id]
@@ -30,6 +31,9 @@
 
 (defn cids-get-latest []
   (parse-int @(@r [:lindex "cids" 0])))
+
+(defn cid-is-valid? [cid]
+  (in? @(@r [:lrange "cids" 0 -1]) cid))
 
 
 (defn store-raw-comment [comm]

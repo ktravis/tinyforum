@@ -97,7 +97,8 @@ float:right;
 .ctimecontainer * {
 position:absolute;
 bottom:-30px;
-margin-left:-160px;
+margin-left:-165px;
+margin-right:-5px;
 }
 
 .nologin {

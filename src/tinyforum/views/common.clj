@@ -6,6 +6,7 @@
   (:use [noir.core :only [defpartial defpage]]
         [tinyforum.util.utils]
         [tinyforum.models.static :only [get-masthead get-footer]]
+        [tinyforum.models.comments :only [cid-is-valid?]]
         [clojure.string :only [split]]
         [tinyforum.models.removal :only [user-delete!]]
         [markdown.core]
@@ -37,7 +38,7 @@
              (if (sess/get :seen)
                (clojure.string/join #" "
                  (set (conj 
-                          (clojure.string/split (sess/get :seen) #" ")
+                          (filter cid-is-valid? (clojure.string/split (sess/get :seen) #" "))
                           (str id))))
                (str id))))
 (defn comment-saw! [cid] 

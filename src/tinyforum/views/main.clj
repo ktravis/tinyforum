@@ -27,9 +27,9 @@
                                  "font-weight:regular" 
                                  "font-weight:bold")} (:title topic)]
                 (when-let [cids (topics/topic-get-comment-ids (:id topic))]
-                  (let [num (count (clojure.string/join #" " 
+                  (let [num (count
                               (filter #(not (common/comment-seen? %)) 
-                                      cids)))]
+                                      cids))]
                     (if (< 0 num) 
                       [:span.countpos [:a.commentcount 
                        {:href (str "/topic/" (:id topic))} 
