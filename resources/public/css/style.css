@@ -3,42 +3,39 @@ body {
     padding-bottom: 40px;
 }
 
-/* Custom container */
-.container-narrow {
+.main-container {
     margin: 0 auto;
     max-width: 960px;
 }
 
-.container-narrow > hr {
+.main-container > hr {
     margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
+.titlefocus {
     margin: 60px 0;
     text-align: center;
 }
 
-.jumbotron h1 {
+.titlefocus h1 {
     font-size: 72px;
     line-height: 1;
 }
 
-.jumbotron .btn {
+.titlefocus .btn {
     font-size: 21px;
     padding: 14px 24px;
 }
 
-.jumbotron * li {
+.titlefocus * li {
 text-align:left;
 }
 
-/* Supporting marketing content */
-.marketing {
+.headingbar {
     margin: 60px 0;
 }
 
-.marketing p + h4 {
+.headingbar p + h4 {
     margin-top: 28px;
 }
 
@@ -47,34 +44,31 @@ padding-top: 20px;
 paddingding-bottom: 40px;
 }
 
-/* Custom container */
-.container-narrow {
+.main-container {
 40pxmargin: 0 auto;
 max-width: 700px;
 }
-.container-narrow > hr {
+.main-container > hr {
 marginmargin: 30px 0;
 }
 
-/* Main marketing message and sign up button Custom*/
-.jumbotron {
+.titlefocus {
 margin: 60px 0;
 text-align: center;
 }
-.jumbotron h1 {
+.titlefocus h1 {
 font-size: 72px;
 line-height: 1;
 }
-.jumbotron .btn {
+.titlefocus .btn {
 font-size: 21px;
 padding: 14px 24px;
 }
 
-/* Supporting markdowneting content */
-.marketing {
+.headingbar {
 margin: 60px 0;
 }
-.marketing p +narrow h4 {
+.headingbar p +narrow h4 {
 margin-top: 28px;
 }
 

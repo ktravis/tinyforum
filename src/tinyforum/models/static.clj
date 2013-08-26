@@ -6,28 +6,28 @@
   @(@r [:set "FAQ" new-faq]))
 
 (defn get-faq []
-  @(@r [:get "FAQ"]))
+  (or @(@r [:get "FAQ"]) "Change the faq text in /manage!"))
 
 (defn set-masthead! [new-masthead]
   @(@r [:set "MASTHEAD" new-masthead]))
 
 (defn get-masthead []
-  @(@r [:get "MASTHEAD"]))
+  (or @(@r [:get "MASTHEAD"]) "TinyForum"))
 
 (defn set-banner! [new-banner]
   @(@r [:set "BANNER" new-banner]))
 
 (defn get-banner []
-  @(@r [:get "BANNER"]))
+  (or @(@r [:get "BANNER"]) "Welcome to TinyForum!"))
 
 (defn set-lead! [new-lead]
   @(@r [:set "LEAD" new-lead]))
 
 (defn get-lead []
-  @(@r [:get "LEAD"]))
+  (or @(@r [:get "LEAD"]) "Informative description goes here, change this text to your liking..."))
 
 (defn set-footer! [new-footer]
   @(@r [:set "FOOTER" new-footer]))
 
 (defn get-footer []
-  @(@r [:get "FOOTER"]))
+  (or @(@r [:get "FOOTER"]) "Copyright 2013 Kyle Travis, MIT License"))

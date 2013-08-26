@@ -3,7 +3,7 @@
 
 (def redis-host "localhost")
 (def redis-password "")
-(def redis-port 6137)
+(def redis-port 6379)
 
 (def r (delay (redis-client 
   {:host redis-host

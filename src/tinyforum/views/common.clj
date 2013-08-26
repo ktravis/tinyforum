@@ -95,7 +95,7 @@
                (include-css "/css/shThemeDefault.css")
                (include-css "/css/style.css")]
               [:body
-               [:div.container-narrow
+               [:div.main-container
                [:div.masthead 
                 [:ul.nav.nav-pills.pull-right
                  [:li [:a {:href "/"} "Home"]]
@@ -110,7 +110,7 @@
                   [:h3.currentuser (str "user: " u) 
                    (if (users/is-admin? u)[:b {:style "color:#90c8e0;"} " (admin)"])])
                 [:hr]
-                [:div.marketing
+                [:div.headingbar
                  (if-let [err (sess/get :err)]
                    [:div.error [:h4#errorcontent err]]
                    (when-let [message (sess/flash-get :message)]

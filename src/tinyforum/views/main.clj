@@ -12,7 +12,7 @@
 (defpage "/" [] 
          (sess/put! :referral "/")
          (common/site-layout
-           [:div.jumbotron
+           [:div.titlefocus
             [:h1 (static/get-banner)]
             [:p.lead (md-to-html-string (static/get-lead))]]
            [:table.table.table-hover

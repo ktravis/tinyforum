@@ -12,7 +12,7 @@
 (defpage "/faq" []
          (sess/put! :referral "/faq")
          (common/site-layout
-           [:div.jumbotron
+           [:div.titlefocus
             [:h1 "FAQ"]
             [:p.lead
              (md-to-html-string (static/get-faq))]
@@ -23,7 +23,7 @@
 (defpage "/faq/edit" []
          (sess/put! :referral "/faq")
          (common/site-layout
-           [:div.jumbotron
+           [:div.titlefocus
             [:h1 "FAQ"]
             [:p.lead 
              ]
